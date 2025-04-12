@@ -122,16 +122,22 @@ if 'current_view' not in st.session_state:
 # Load and save library functions
 def load_library():
     try:
+        # Avoid reloading if already loaded
+        if "library" in st.session_state:
+            return True
+
         if os.path.exists("library.json"):
             with open("library.json", "r") as file:
                 st.session_state.library = json.load(file)
-                st.write(f"Library loaded: {st.session_state.library}")  # Debugging line
+                st.write("✅ Library successfully loaded.")  # You can remove this after testing
                 return True
         else:
-            st.write("Library file not found. Starting with an empty library.")  # Debugging line
-        return False
+            st.session_state.library = []
+            st.warning("⚠️ Library file not found. Starting with an empty library.")
+            return False
     except Exception as e:
-        st.error(f"An error occurred while loading the library. {e}")
+        st.session_state.library = []
+        st.error(f"❌ An error occurred while loading the library: {e}")
         return False
 
 # save library
@@ -388,7 +394,7 @@ if st.session_state.current_view == "add":
                             </div>
                             """, unsafe_allow_html=True)
                 
-                cols1, cols2 = st.columns(2)
+                col1, col2 = st.columns(2)
                 with col1:
                     if st.button("Remove Book", key=f"remove_{i}", use_container_width=True):
                         if remove_book(i):
