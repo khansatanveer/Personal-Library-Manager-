@@ -268,7 +268,6 @@ else:
         <p style="font-size: 0.85rem; color: #6b7280;">🕒 Added on: {book.get('date_added', 'N/A')}</p>
     </div>
                 """, unsafe_allow_html=True)
-
             
             # Add Remove and Toggle Read Status buttons
             col1, col2 = st.columns(2)
