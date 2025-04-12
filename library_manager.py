@@ -241,17 +241,17 @@ else:
         with cols[i % 2]:  # Alternate books between two columns
             # Render book details using HTML and custom styles
             st.markdown(f"""<div class='book-card'> 
-                        <h3> {book['title']} </h3> 
-                        <p><strong> Author:</strong> {book['author']} </p> 
-                        <p><strong> Genre:</strong> {book['genre']} </p> 
-                        <p><strong> Publication Year:</strong> {book['publication_year']} </p> 
-                        <p><strong> Pages:</strong> {book['pages']} </p>
-                        <p><span class='{"read-badge" if book["read_status"] else "not-read-badge"}'>
-                            { "Read" if book["read_status"] else "Not Read" }
-                            </span></p>
-                        <p> Added on: {book['date_added']} </p> 
-                        </div>
-                        """, unsafe_allow_html=True)
+    <h3> {book.get('title', 'Unknown Title')} </h3> 
+    <p><strong> Author:</strong> {book.get('author', 'Unknown')} </p> 
+    <p><strong> Genre:</strong> {book.get('genre', 'Unknown')} </p> 
+    <p><strong> Publication Year:</strong> {book.get('publication_year', 'N/A')} </p> 
+    <p><strong> Pages:</strong> {book.get('pages', 'N/A')} </p>
+    <p><span class='{ "read-badge" if book.get("read_status", False) else "not-read-badge" }'>
+        { "Read" if book.get("read_status", False) else "Not Read" }
+    </span></p>
+    <p> Added on: {book.get('date_added', 'N/A')} </p> 
+</div>
+""", unsafe_allow_html=True)
             
             # Add Remove and Toggle Read Status buttons
             col1, col2 = st.columns(2)
