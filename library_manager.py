@@ -125,7 +125,10 @@ def load_library():
         if os.path.exists("library.json"):
             with open("library.json", "r") as file:
                 st.session_state.library = json.load(file)
+                st.write(f"Library loaded: {st.session_state.library}")  # Debugging line
                 return True
+        else:
+            st.write("Library file not found. Starting with an empty library.")  # Debugging line
         return False
     except Exception as e:
         st.error(f"An error occurred while loading the library. {e}")
@@ -136,6 +139,7 @@ def save_library():
     try:
         with open("library.json", "w") as file:
             json.dump(st.session_state.library, file)
+        st.write(f"Library saved: {st.session_state.library}")  # Debugging line
         return True
     except Exception as e:
         st.error(f"An error occurred while saving the library. {e}")
