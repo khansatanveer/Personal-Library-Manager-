@@ -240,16 +240,29 @@ else:
     for i, book in enumerate(st.session_state.library):
         with cols[i % 2]:  # Alternate books between two columns
             # Render book details using HTML and custom styles
-            st.markdown(f"""<div class='book-card'> 
-    <h3> {book.get('title', 'Unknown Title')} </h3> 
-    <p><strong> Author:</strong> {book.get('author', 'Unknown')} </p> 
-    <p><strong> Genre:</strong> {book.get('genre', 'Unknown')} </p> 
-    <p><strong> Publication Year:</strong> {book.get('publication_year', 'N/A')} </p> 
-    <p><strong> Pages:</strong> {book.get('pages', 'N/A')} </p>
-    <p><span class='{ "read-badge" if book.get("read_status", False) else "not-read-badge" }'>
-        { "Read" if book.get("read_status", False) else "Not Read" }
-    </span></p>
-    <p> Added on: {book.get('date_added', 'N/A')} </p> 
+           st.markdown(f"""
+<div style="background: linear-gradient(to right, #f9fafb, #f3f4f6); 
+            border-radius: 1rem; 
+            padding: 1.5rem; 
+            margin-bottom: 1rem; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+            border-left: 5px solid {'#10b981' if book.get('read_status', False) else '#ef4444'};">
+    <h3 style="margin: 0; font-size: 1.5rem; font-weight: bold; color: #111827;">📖 {book.get('title', 'Unknown Title')}</h3>
+    <p style="margin: 0.5rem 0;"><strong>👤 Author:</strong> {book.get('author', 'Unknown')}</p>
+    <p style="margin: 0.5rem 0;"><strong>🏷️ Genre:</strong> {book.get('genre', 'Unknown')}</p>
+    <p style="margin: 0.5rem 0;"><strong>📅 Year:</strong> {book.get('publication_year', 'N/A')}</p>
+    <p style="margin: 0.5rem 0;"><strong>📄 Pages:</strong> {book.get('pages', 'N/A')}</p>
+    <p style="margin: 0.5rem 0;">
+        <span style="padding: 0.2rem 0.6rem; 
+                     border-radius: 9999px; 
+                     background-color: {'#dcfce7' if book.get('read_status', False) else '#fee2e2'}; 
+                     color: {'#15803d' if book.get('read_status', False) else '#b91c1c'}; 
+                     font-weight: 600; 
+                     font-size: 0.875rem;">
+            {"✔️ Read" if book.get("read_status", False) else "❌ Not Read"}
+        </span>
+    </p>
+    <p style="font-size: 0.85rem; color: #6b7280;">🕒 Added on: {book.get('date_added', 'N/A')}</p>
 </div>
 """, unsafe_allow_html=True)
             
