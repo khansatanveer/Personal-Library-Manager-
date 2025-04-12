@@ -269,24 +269,30 @@ else:
     </div>
                 """, unsafe_allow_html=True)
             
-            # Add Remove and Toggle Read Status buttons
-            col1, col2 = st.columns(2)
-            with col1:
-                if st.button("Remove Book", key=f"remove_{i}", use_container_width=True):
-                    if remove_book(i):  # Remove the book and rerun app
-                        st.rerun()
-            with col2:
-                new_status = not book["read_status"]  # Toggle read status
-                status_lable = "Mark as Read" if not book["read_status"] else "Mark as Not Read"
-                if st.button(status_lable, key=f"status_{i}", use_container_width=True):
-                    st.session_state.library[i]["read_status"] = new_status
-                    save_library()  # Save the updated status
-                    st.rerun()
+with st.form("add_book_form"):
+        col1, col2 = st.columns(2)
 
-# Show a success message if a book was removed
-if st.session_state.get("book_removed"):
-    st.markdown("<div class='success-message'> Book removed successfully! </div>", unsafe_allow_html=True)
-    st.session_state.book_removed = False  # Reset flag
+        with col1:
+            title = st.text_input("Book Title", max_chars=100)
+            author = st.text_input("Author", max_chars=100)
+            publication_year = st.number_input("Publication Year", min_value=1000, max_value=datetime.now().year, step=1, value=datetime.now().year)
+
+        with col2:
+            genre = st.selectbox("Genre", ["Fiction", "Non-Fiction", "Science Fiction", "Fantasy", "Mystery", "Thriller", "Romance", "Biography", "Autobiography", "Self-Help", "Historical Fiction", "Young Adult", "Children's", "Poetry", "Graphic Novel", "Others"])
+            read_status = st.radio("Read Status", ["Read", "Not Read"], horizontal=True)
+            read_bool = read_status == "Read"
+            pages = st.number_input("Pages", min_value=1, max_value=10000, step=1, value=100)
+
+        submit_button = st.form_submit_button(label="Add Book")
+
+    if submit_button and title and author:
+        add_book(title, author, publication_year, genre, read_bool, pages)
+
+    if st.session_state.get("book_added"):
+        st.markdown("<div class='success'> Book added successfully! </div>", unsafe_allow_html=True)
+        st.balloons()
+        st.session_state.book_added = False
+        st.session_state.current_view = "library"
 
 # ================= SEARCH BOOKS VIEW =================
 if st.session_state.current_view == "search":
