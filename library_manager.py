@@ -8,6 +8,7 @@ import time             # To delay actions if needed
 import random           # (Unused but imported)
 import plotly.express as px     # For visualizations
 import plotly.graph_objects as go
+from PIL import Image
 from streamlit_lottie import st_lottie  # To load Lottie animations
 import requests         # For making HTTP requests
 
