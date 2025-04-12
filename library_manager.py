@@ -297,7 +297,7 @@ if st.session_state.current_view == "search":
                                 <p><strong>Author:</strong> {book['author']}</p>
                                 <p><strong>Genre:</strong> {book['genre']}</p>
                                 <p><strong>Publication Year:</strong> {book['publication_year']}</p>
-                                <p><strong>Pages:</strong> {book['pages']}</p>
+                                <p><strong> Pages:</strong> {book['pages']} </p>
                                 <p><span class='read-badge'>
                                     {"Read" if book["read_status"] else "Not Read"}
                                 </span></p>
