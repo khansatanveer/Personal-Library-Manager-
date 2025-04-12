@@ -237,62 +237,61 @@ if st.session_state.current_view == "add":
         st.session_state.book_added = False
         st.session_state.current_view = "library"
 
+# Display the header for the library view
+st.markdown("<h2 class = 'sub-header'> YOUR LIBRARY </h2>", unsafe_allow_html=True)
+
+# Check if the library is empty
 if not st.session_state.library:
     st.markdown("<div class='warning'> Your library is empty. Add a book to get started! </div>", unsafe_allow_html=True)
 else:
     cols = st.columns(2)  # Display books in two columns
     for i, book in enumerate(st.session_state.library):
         with cols[i % 2]:  # Alternate books between two columns
-                st.markdown(f"""
-                <div style="background: linear-gradient(to right, #f9fafb, #f3f4f6); 
-                border-radius: 1rem; 
-                padding: 1.5rem; 
-                margin-bottom: 1rem; 
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
-                border-left: 5px solid {'#10b981' if book.get('read_status', False) else '#ef4444'};">
-        <h3 style="margin: 0; font-size: 1.5rem; font-weight: bold; color: #111827;">📖 {book.get('title', 'Unknown Title')}</h3>
-        <p style="margin: 0.5rem 0;"><strong>👤 Author:</strong> {book.get('author', 'Unknown')}</p>
-        <p style="margin: 0.5rem 0;"><strong>🏷️ Genre:</strong> {book.get('genre', 'Unknown')}</p>
-        <p style="margin: 0.5rem 0;"><strong>📅 Year:</strong> {book.get('publication_year', 'N/A')}</p>
-        <p style="margin: 0.5rem 0;"><strong>📄 Pages:</strong> {book.get('pages', 'N/A')}</p>
-        <p style="margin: 0.5rem 0;">
-            <span style="padding: 0.2rem 0.6rem; 
-                         border-radius: 9999px; 
-                         background-color: {'#dcfce7' if book.get('read_status', False) else '#fee2e2'}; 
-                         color: {'#15803d' if book.get('read_status', False) else '#b91c1c'}; 
-                         font-weight: 600; 
-                         font-size: 0.875rem;">
-                {"✔️ Read" if book.get("read_status", False) else "❌ Not Read"}
-            </span>
-        </p>
-        <p style="font-size: 0.85rem; color: #6b7280;">🕒 Added on: {book.get('date_added', 'N/A')}</p>
-    </div>
-                """, unsafe_allow_html=True)
             
-with st.form("add_book_form"):
-        col1, col2 = st.columns(2)
+            st.markdown(f"""
+            <div style="background: linear-gradient(to right, #f9fafb, #f3f4f6); 
+            border-radius: 1rem; 
+            padding: 1.5rem; 
+            margin-bottom: 1rem; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+            border-left: 5px solid {'#10b981' if book.get('read_status', False) else '#ef4444'};">
+    <h3 style="margin: 0; font-size: 1.5rem; font-weight: bold; color: #111827;">📖 {book.get('title', 'Unknown Title')}</h3>
+    <p style="margin: 0.5rem 0;"><strong>👤 Author:</strong> {book.get('author', 'Unknown')}</p>
+    <p style="margin: 0.5rem 0;"><strong>🏷️ Genre:</strong> {book.get('genre', 'Unknown')}</p>
+    <p style="margin: 0.5rem 0;"><strong>📅 Year:</strong> {book.get('publication_year', 'N/A')}</p>
+    <p style="margin: 0.5rem 0;"><strong>📄 Pages:</strong> {book.get('pages', 'N/A')}</p>
+    <p style="margin: 0.5rem 0;">
+        <span style="padding: 0.2rem 0.6rem; 
+                     border-radius: 9999px; 
+                     background-color: {'#dcfce7' if book.get('read_status', False) else '#fee2e2'}; 
+                     color: {'#15803d' if book.get('read_status', False) else '#b91c1c'}; 
+                     font-weight: 600; 
+                     font-size: 0.875rem;">
+            {"✔️ Read" if book.get("read_status", False) else "❌ Not Read"}
+        </span>
+    </p>
+    <p style="font-size: 0.85rem; color: #6b7280;">🕒 Added on: {book.get('date_added', 'N/A')}</p>
+</div>
+""", unsafe_allow_html=True)
+            
+            # Add Remove and Toggle Read Status buttons
+            col1, col2 = st.columns(2)
+            with col1:
+                if st.button("Remove Book", key=f"remove_{i}", use_container_width=True):
+                    if remove_book(i):  # Remove the book and rerun app
+                        st.rerun()
+            with col2:
+                new_status = not book["read_status"]  # Toggle read status
+                status_lable = "Mark as Read" if not book["read_status"] else "Mark as Not Read"
+                if st.button(status_lable, key=f"status_{i}", use_container_width=True):
+                    st.session_state.library[i]["read_status"] = new_status
+                    save_library()  # Save the updated status
+                    st.rerun()
 
-        with col1:
-            title = st.text_input("Book Title", max_chars=100)
-            author = st.text_input("Author", max_chars=100)
-            publication_year = st.number_input("Publication Year", min_value=1000, max_value=datetime.now().year, step=1, value=datetime.now().year)
-
-        with col2:
-            genre = st.selectbox("Genre", ["Fiction", "Non-Fiction", "Science Fiction", "Fantasy", "Mystery", "Thriller", "Romance", "Biography", "Autobiography", "Self-Help", "Historical Fiction", "Young Adult", "Children's", "Poetry", "Graphic Novel", "Others"])
-            read_status = st.radio("Read Status", ["Read", "Not Read"], horizontal=True)
-            read_bool = read_status == "Read"
-            pages = st.number_input("Pages", min_value=1, max_value=10000, step=1, value=100)
-
-        submit_button = st.form_submit_button(label="Add Book")
-
-    if submit_button and title and author:
-        add_book(title, author, publication_year, genre, read_bool, pages)
-
-    if st.session_state.get("book_added"):
-        st.markdown("<div class='success'> Book added successfully! </div>", unsafe_allow_html=True)
-        st.balloons()
-        st.session_state.book_added = False
-        st.session_state.current_view = "library"
+# Show a success message if a book was removed
+if st.session_state.get("book_removed"):
+    st.markdown("<div class='success-message'> Book removed successfully! </div>", unsafe_allow_html=True)
+    st.session_state.book_removed = False  # Reset flag
 
 # ================= SEARCH BOOKS VIEW =================
 if st.session_state.current_view == "search":
@@ -358,4 +357,3 @@ elif st.session_state.current_view == "status":
 # ================= FOOTER =================
 st.markdown("---")
 st.markdown("Copyright © 2025 Khansa TanveerAhmed — Personal Library Manager", unsafe_allow_html=True)
-
