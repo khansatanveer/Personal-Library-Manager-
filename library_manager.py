@@ -233,7 +233,7 @@ def get_library_status():
     }
 
 
-def create_visulations(stats):
+def create_visulations(status):
     if status["total_books"] > 0:
         fig_read_status = go.Figure(data=[go.Pie(
             labels=["Read", "Not Read"], 
@@ -438,7 +438,7 @@ if st.session_state.current_view == "search":
                 else:
                     st.markdown("<div class='warning-message'> No book found matching your search. </div>", unsafe_allow_html=True)
 
-# Library Statistics View
+
 # Library Statistics View
 elif st.session_state.current_view == "status":
     st.markdown("<h2 class='sub-header'> Library Statistics </h2>", unsafe_allow_html=True)
