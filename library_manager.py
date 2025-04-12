@@ -259,32 +259,33 @@ def create_visulations(status):
                 color_continuous_scale=px.colors.sequential.Blues,
                 )
             fig_genres.update_layout(
-                title="Books by publication decade",
-                xaxis_title="Decade",
+                title="Books by Genre",
+                xaxis_title="Genre",
                 yaxis_title="Number of books",
                 height=400
             )
             st.plotly_chart(fig_genres, use_container_width=True)
+        
+        # line chart for decades
         if status['decades']:
             decades_df = pd.DataFrame({
-            'Decade': [f"{decade}s" for decade in status['decades'].keys()], 
-            'Count': list(status['decades'].values())
-        })
-    fig_decades = px.line(
-        decades_df, 
-        x='Decade', 
-        y='Count', 
-        markers=True,
-        line_shape="spline"
-    )
-    fig_decades.update_layout(
-        title_text="Books by publication decade",
-        xaxis_title="Decade",
-        yaxis_title="Number of books",
-        height=400
-    )
-    st.plotly_chart(fig_decades, use_container_width=True)
-
+                'Decade': [f"{decade}s" for decade in status['decades'].keys()], 
+                'Count': list(status['decades'].values())
+            })
+            fig_decades = px.line(
+                decades_df, 
+                x='Decade', 
+                y='Count', 
+                markers=True,
+                line_shape="spline"
+            )
+            fig_decades.update_layout(
+                title_text="Books by publication decade",
+                xaxis_title="Decade",
+                yaxis_title="Number of books",
+                height=400
+            )
+            st.plotly_chart(fig_decades, use_container_width=True)
 # Load library and Lottie animation
 load_library()
 
