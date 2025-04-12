@@ -381,9 +381,9 @@ if st.session_state.current_view == "add":
                             <p><strong> Genre:</strong> {book['genre']} </p> 
                             <p><strong> Publication Year:</strong> {book['publication_year']} </p> 
                             <p><strong> Pages:</strong> {book['pages']} </p>
-                            <p><span class='read-badge'> {"Read-badge" if book["read_status"] else "Not Read"} '>{
-                            "Read" if book["read_status"] else "Not Read"
-                            }</span></p> 
+                            <p><span class='{"read-badge" if book["read_status"] else "not-read-badge"}'>
+                            { "Read" if book["read_status"] else "Not Read" }
+                            </span></p>
                             <p> Added on: {book['date_added']} </p> 
                             </div>
                             """, unsafe_allow_html=True)
