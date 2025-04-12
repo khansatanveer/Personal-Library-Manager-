@@ -229,7 +229,7 @@ def get_library_status():
     }
 
 
-def create_visulations(status):
+def create_visulations(stats):
     if status["total_books"] > 0:
         fig_read_status = go.Figure(data=[go.Pie(
             labels=["Read", "Not Read"], 
@@ -452,7 +452,7 @@ elif st.session_state.current_view == "status":
         with col3:
             st.metric("Percentage Read", f"{stats['percentage']:.1f}%")
 
-        create_visualizations(status)  
+        create_visualizations(stats)  
 
         if stats['authors']:
             st.markdown("<h3> Top Authors </h3>", unsafe_allow_html=True)
