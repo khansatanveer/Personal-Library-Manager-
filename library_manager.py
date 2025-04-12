@@ -434,6 +434,7 @@ if st.session_state.current_view == "search":
                     st.markdown("<div class='warning-message'> No book found matching your search. </div>", unsafe_allow_html=True)
 
 # Library Statistics View
+# Library Statistics View
 elif st.session_state.current_view == "status":
     st.markdown("<h2 class='sub-header'> Library Statistics </h2>", unsafe_allow_html=True)
 
@@ -451,13 +452,14 @@ elif st.session_state.current_view == "status":
             st.metric("Percentage Read", f"{stats['percentage']:.1f}%")
 
         # Call the correctly named function with stats as argument
-        create_visualizations(stats)
+        create_visualizations(stats)  # Assuming you meant 'create_visualizations'
 
-        if stats["authors"]:
-            st.markdown("<h3>Top Authors</h3>", unsafe_allow_html=True)
-            top_authors = dict(list(stats["authors"].items())[:5])
+        if stats['authors']:
+            st.markdown("<h3> Top Authors </h3>", unsafe_allow_html=True)
+            top_authors = dict(list(stats['authors'].items())[:5])
             for author, count in top_authors.items():
                 st.markdown(f"**{author}**: {count} book{'s' if count > 1 else ''}")
+
 
 # Footer
 st.markdown("---")
