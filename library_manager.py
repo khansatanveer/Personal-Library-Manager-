@@ -452,10 +452,8 @@ elif st.session_state.current_view == "status":
         with col3:
             st.metric("Percentage Read", f"{stats['percentage']:.1f}%")
 
-        create_visualizations(stats)  
-
-        if stats['authors']:
-            st.markdown("<h3> Top Authors </h3>", unsafe_allow_html=True)
+        if stats.get('authors'):
+            st.markdown("<h3>Top Authors</h3>", unsafe_allow_html=True)
             top_authors = dict(list(stats['authors'].items())[:5])
             for author, count in top_authors.items():
                 st.markdown(f"**{author}**: {count} book{'s' if count > 1 else ''}")
