@@ -247,7 +247,20 @@ else:
     cols = st.columns(2)  # Display books in two columns
     for i, book in enumerate(st.session_state.library):
         with cols[i % 2]:  # Alternate books between two columns
-            
+            # ================= SEARCH BOOKS VIEW =================
+if st.session_state.current_view == "search":
+    st.markdown("<h2 class='sub-header'> Search Books </h2>", unsafe_allow_html=True)
+
+    # Dropdown to choose search field
+    search_by = st.selectbox("Search by", ["Title", "Author", "Genre"])
+    search_term = st.text_input("Enter your search term")
+
+    if st.button("Search"):
+        search_books(search_term, search_by)
+
+    if st.session_state.search_results:
+        st.markdown(f"<h3>🔍 Found {len(st.session_state.search_results)} result(s):</h3>", unsafe_allow_html=True)
+        for result in st.session_state.search_results:
             st.markdown(f"""
             <div style="background: linear-gradient(to right, #f9fafb, #f3f4f6); 
             border-radius: 1rem; 
