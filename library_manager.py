@@ -25,7 +25,7 @@ st.set_page_config(
 st.markdown("""
 <style>
 ...  # Styles omitted for brevity, but includes styling for headers, cards, badges, buttons, etc.
-</style>
+
 /* Set the background image for the entire page */
    [data-testid="stAppViewContainer"] > .main {
         background-image: url('https://your-image-url.com/path-to-image.jpg');
@@ -33,6 +33,7 @@ st.markdown("""
         background-position: center;
         background-attachment: fixed;
     }
+    </style>
 """, unsafe_allow_html=True)
 
 # -------------------- LOAD LOTTIE FUNCTION --------------------
