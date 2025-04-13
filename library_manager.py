@@ -443,29 +443,39 @@ if st.session_state.current_view == "search":
                     """, unsafe_allow_html=True)
 
 
-# ================= LIBRARY STATISTICS VIEW =================
-elif st.session_state.current_view == "status":
-    st.markdown("<h2 class='sub-header'> Library Statistics </h2>", unsafe_allow_html=True)
+# =================== LIBRARY STATISTICS VIEW ===================
+if st.session_state.current_view == "status":
+    st.markdown("<h2 class='sub-header'>📊 Library Statistics</h2>", unsafe_allow_html=True)
 
     if not st.session_state.library:
-        st.markdown("<div class='warning-message'> Your library is empty. Add some books to see statistics! </div>", unsafe_allow_html=True)
+        st.markdown("<div class='warning-message'>Your library is empty. Add some books to see statistics.</div>", unsafe_allow_html=True)
     else:
-        stats = get_library_status()  # Retrieve statistics
-        col1, col2, col3 = st.columns(3)
+        total_books = len(st.session_state.library)
+        read_books = sum(1 for book in st.session_state.library if book.get("read_status"))
+        unread_books = total_books - read_books
+        total_pages = sum(book.get("pages", 0) for book in st.session_state.library)
 
-        with col1:
-            st.metric("Total Books", stats["total_books"])
-        with col2:
-            st.metric("Read Books", stats["read_books"])
-        with col3:
-            st.metric("Percentage Read", f"{stats['percentage']:.1f}%")
+        st.markdown("""
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-top: 2rem;">
+            <div style="background-color: #f3f4f6; padding: 1.5rem; border-radius: 1rem; min-width: 200px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <h4 style="color:#2563eb;">📚 Total Books</h4>
+                <p style="font-size: 1.5rem; font-weight: bold; color: #1f2937;">{}</p>
+            </div>
+            <div style="background-color: #dcfce7; padding: 1.5rem; border-radius: 1rem; min-width: 200px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <h4 style="color:#15803d;">✔️ Read</h4>
+                <p style="font-size: 1.5rem; font-weight: bold; color: #166534;">{}</p>
+            </div>
+            <div style="background-color: #fee2e2; padding: 1.5rem; border-radius: 1rem; min-width: 200px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <h4 style="color:#b91c1c;">❌ Unread</h4>
+                <p style="font-size: 1.5rem; font-weight: bold; color: #991b1b;">{}</p>
+            </div>
+            <div style="background-color: #e0f2fe; padding: 1.5rem; border-radius: 1rem; min-width: 200px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                <h4 style="color:#0284c7;">📄 Total Pages</h4>
+                <p style="font-size: 1.5rem; font-weight: bold; color: #0369a1;">{}</p>
+            </div>
+        </div>
+        """.format(total_books, read_books, unread_books, total_pages), unsafe_allow_html=True)
 
-        # Display top authors
-        if stats['authors']:
-            st.markdown("<h3> Top Authors </h3>", unsafe_allow_html=True)
-            top_authors = dict(list(stats['authors'].items())[:5])  # Show top 5
-            for author, count in top_authors.items():
-                st.markdown(f"**{author}**: {count} book{'s' if count > 1 else ''}")
 
 # ================= FOOTER =================
 st.markdown("---")
