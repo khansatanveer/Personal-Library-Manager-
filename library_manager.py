@@ -320,19 +320,18 @@ if st.session_state.current_view == "add":
         st.balloons()
         st.session_state.book_added = False
         st.session_state.current_view = "library"
+        
+# -------------------- VIEW LIBRARY --------------------
+if st.session_state.current_view == "library":
+    st.markdown("<h2 class = 'sub-header'> YOUR LIBRARY </h2>", unsafe_allow_html=True)
 
-# Display the header for the library view
-st.markdown("<h2 class = 'sub-header'> YOUR LIBRARY </h2>", unsafe_allow_html=True)
-
-# Check if the library is empty
-if not st.session_state.library:
-    st.markdown("<div class='warning'> Your library is empty. Add a book to get started! </div>", unsafe_allow_html=True)
-else:
-    cols = st.columns(2)  # Display books in two columns
-    for i, book in enumerate(st.session_state.library):
-        with cols[i % 2]:  # Alternate books between two columns
-            
-            st.markdown(f"""
+    if not st.session_state.library:
+        st.markdown("<div class='warning'> Your library is empty. Add a book to get started! </div>", unsafe_allow_html=True)
+    else:
+        cols = st.columns(2)
+        for i, book in enumerate(st.session_state.library):
+            with cols[i % 2]:  
+                st.markdown(f"""
             <div style="background: linear-gradient(to right, #f9fafb, #f3f4f6); 
             border-radius: 1rem; 
             padding: 1.5rem; 
@@ -429,7 +428,7 @@ elif st.session_state.current_view == "status":
             st.metric("Percentage Read", f"{stats['percentage']:.1f}%")
 
         # Create plots and charts using Plotly
-          
+        
 
         # Display top authors
         if stats['authors']:
@@ -437,6 +436,7 @@ elif st.session_state.current_view == "status":
             top_authors = dict(list(stats['authors'].items())[:5])  # Show top 5
             for author, count in top_authors.items():
                 st.markdown(f"**{author}**: {count} book{'s' if count > 1 else ''}")
+
 # ================= FOOTER =================
 st.markdown("---")
 st.markdown("Copyright © 2025 Khansa TanveerAhmed — Personal Library Manager", unsafe_allow_html=True)
