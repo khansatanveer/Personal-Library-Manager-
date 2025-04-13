@@ -455,26 +455,62 @@ if st.session_state.current_view == "status":
         unread_books = total_books - read_books
         total_pages = sum(book.get("pages", 0) for book in st.session_state.library)
 
-        st.markdown("""
-        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; margin-top: 2rem;">
-            <div style="background-color: #f3f4f6; padding: 1.5rem; border-radius: 1rem; min-width: 200px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-                <h4 style="color:#2563eb;">📚 Total Books</h4>
-                <p style="font-size: 1.5rem; font-weight: bold; color: #1f2937;">{}</p>
+        st.markdown(f"""
+        <style>
+        .stats-container {{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }}
+        .stat-card {{
+            background: linear-gradient(to bottom right, #f9fafb, #e5e7eb);
+            border-radius: 1.25rem;
+            padding: 2rem;
+            min-width: 220px;
+            max-width: 250px;
+            flex: 1 1 auto;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
+        }}
+        .stat-card:hover {{
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+        }}
+        .stat-title {{
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #4b5563;
+        }}
+        .stat-value {{
+            font-size: 2rem;
+            font-weight: 700;
+            color: #111827;
+        }}
+        </style>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-title">📚 Total Books</div>
+                <div class="stat-value">{total_books}</div>
             </div>
-            <div style="background-color: #dcfce7; padding: 1.5rem; border-radius: 1rem; min-width: 200px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-                <h4 style="color:#15803d;">✔️ Read</h4>
-                <p style="font-size: 1.5rem; font-weight: bold; color: #166534;">{}</p>
+            <div class="stat-card" style="background: linear-gradient(to bottom right, #d1fae5, #a7f3d0);">
+                <div class="stat-title" style="color: #065f46;">✔️ Books Read</div>
+                <div class="stat-value" style="color: #064e3b;">{read_books}</div>
             </div>
-            <div style="background-color: #fee2e2; padding: 1.5rem; border-radius: 1rem; min-width: 200px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-                <h4 style="color:#b91c1c;">❌ Unread</h4>
-                <p style="font-size: 1.5rem; font-weight: bold; color: #991b1b;">{}</p>
+            <div class="stat-card" style="background: linear-gradient(to bottom right, #fee2e2, #fecaca);">
+                <div class="stat-title" style="color: #991b1b;">❌ Not Read</div>
+                <div class="stat-value" style="color: #7f1d1d;">{unread_books}</div>
             </div>
-            <div style="background-color: #e0f2fe; padding: 1.5rem; border-radius: 1rem; min-width: 200px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-                <h4 style="color:#0284c7;">📄 Total Pages</h4>
-                <p style="font-size: 1.5rem; font-weight: bold; color: #0369a1;">{}</p>
+            <div class="stat-card" style="background: linear-gradient(to bottom right, #dbeafe, #bfdbfe);">
+                <div class="stat-title" style="color: #1e3a8a;">📄 Total Pages</div>
+                <div class="stat-value" style="color: #1e40af;">{total_pages}</div>
             </div>
         </div>
-        """.format(total_books, read_books, unread_books, total_pages), unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
+
 
 
 # ================= FOOTER =================
