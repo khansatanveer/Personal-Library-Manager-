@@ -441,70 +441,82 @@ if st.session_state.current_view == "search":
                             ❌ No book found matching your search.
                         </div>
                     """, unsafe_allow_html=True)
+                    
+# =================== LIBRARY STATISTICS VIEW ===================
+if not st.session_state.library:
+    st.markdown("<div class='warning-message'>Your library is empty. Add some books to see statistics.</div>", unsafe_allow_html=True)
+else:
+    # 🧠 STEP 1: Define your stats first
+    total_books = len(st.session_state.library)
+    read_books = sum(1 for book in st.session_state.library if book.get("read_status"))
+    unread_books = total_books - read_books
+    total_pages = sum(book.get("pages", 0) for book in st.session_state.library)
 
-st.markdown(f"""
-<style>
-.stats-container {{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 2rem;
-    margin-top: 2rem;
-}}
+    # 💡 STEP 2: Now use the variables in the HTML below
+    st.markdown(f"""
+    <style>
+    .stats-container {{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 2rem;
+    }}
 
-.stat-card {{
-    background: url("https://plus.unsplash.com/premium_photo-1675264382294-350cead0d427?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D") !important;
-    background-size: cover;
-    background-position: center;
-    border-radius: 1.25rem;
-    padding: 2rem;
-    min-width: 220px;
-    max-width: 250px;
-    flex: 1 1 auto;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    transition: transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
-    color: white;
-    backdrop-filter: brightness(0.9);
-}}
+    .stat-card {{
+        background: url("https://plus.unsplash.com/premium_photo-1675264382294-350cead0d427?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D") !important;
+        background-size: cover;
+        background-position: center;
+        border-radius: 1.25rem;
+        padding: 2rem;
+        min-width: 220px;
+        max-width: 250px;
+        flex: 1 1 auto;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
+        color: white;
+        backdrop-filter: brightness(0.9);
+    }}
 
-.stat-card:hover {{
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-}}
+    .stat-card:hover {{
+        transform: translateY(-5px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    }}
 
-.stat-title {{
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: white;
-}}
+    .stat-title {{
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: white;
+    }}
 
-.stat-value {{
-    font-size: 2rem;
-    font-weight: 700;
-    color: white;
-}}
-</style>
+    .stat-value {{
+        font-size: 2rem;
+        font-weight: 700;
+        color: white;
+    }}
+    </style>
 
-<div class="stats-container">
-    <div class="stat-card">
-        <div class="stat-title">📚 Total Books</div>
-        <div class="stat-value">{total_books}</div>
+    <div class="stats-container">
+        <div class="stat-card">
+            <div class="stat-title">📚 Total Books</div>
+            <div class="stat-value">{total_books}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">✔️ Books Read</div>
+            <div class="stat-value">{read_books}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">❌ Not Read</div>
+            <div class="stat-value">{unread_books}</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-title">📄 Total Pages</div>
+            <div class="stat-value">{total_pages}</div>
+        </div>
     </div>
-    <div class="stat-card">
-        <div class="stat-title">✔️ Books Read</div>
-        <div class="stat-value">{read_books}</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-title">❌ Not Read</div>
-        <div class="stat-value">{unread_books}</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-title">📄 Total Pages</div>
-        <div class="stat-value">{total_pages}</div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
+
 
 
 # ================= FOOTER =================
