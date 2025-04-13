@@ -26,13 +26,6 @@ st.set_page_config(
 st.markdown("""
 
 <style>
-# html, body, .stApp {
-#     background: url("https://plus.unsplash.com/premium_photo-1675264382294-350cead0d427?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D") !important;
-#     background-size: cover !important;
-#     background-position: center !important;
-#     background-repeat: no-repeat !important;
-#     background-attachment: fixed !important;
-# }
     .img {
     background: url("https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
        background-repeat: no-repeat; 
