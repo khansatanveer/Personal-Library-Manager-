@@ -26,18 +26,19 @@ st.set_page_config(
 st.markdown("""
 
 <style>
-html, body, .stApp {
-    background: url("https://plus.unsplash.com/premium_photo-1675264382294-350cead0d427?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D") !important;
-    background-size: cover !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
-    background-attachment: fixed !important;
-}
+# html, body, .stApp {
+#     background: url("https://plus.unsplash.com/premium_photo-1675264382294-350cead0d427?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D") !important;
+#     background-size: cover !important;
+#     background-position: center !important;
+#     background-repeat: no-repeat !important;
+#     background-attachment: fixed !important;
+# }
     .img {
     background: url("https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
        background-repeat: no-repeat; 
        background-position: top center; 
        background-attachment: fixed;
+         background-size: cover;
 }
 
         .main-header {
@@ -50,69 +51,57 @@ html, body, .stApp {
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .sub-header {
-            color: #3B82F6;
-            font-size: 1.8rem !important;
-            text-align: center;
-            margin-top: 1rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
-            font-family: 'Roboto', sans-serif;
-        }
+            .sub-header {
+        color: #3B82F6;
+        font-size: 1.8rem !important;
+        text-align: center;
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+        font-family: 'Roboto', sans-serif;
+    }
 
-            .success {
-                padding: 1rem;
-                background-color: #ECFDF5;
-                border-left: 5px solid #10B981;
-                border-radius: 0.375rem;
-            }
+    .success-message {
+        background-color: #dcfce7;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        color: #15803d;
+        font-weight: 500;
+        text-align: center;
+    }
 
-            .warning {
-                padding: 1rem;
-                background-color: #FFFBEB;
-                border-left: 5px solid #F59E0B;
-                border-radius: 0.375rem;
-            }
+    .warning {
+        background-color: #fef3c7;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        color: #92400e;
+        font-weight: 500;
+        text-align: center;
+    }
+.warning-message {
+        background-color: #fee2e2;
+        color: #b91c1c;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        text-align: center;
+        font-weight: 500;
+        margin-top: 1rem;
+    }
 
-            .book-card {
-                padding: 1rem;
-                background-color: #F3F4F6;
-                margin: 1rem;
-                border-left: 5px solid #F59E0B;
-                transition: transform 0.3s ease;
-            }
+    .book-card h3 {
+        color: #1f2937;
+        font-weight: 600;
+    }
 
-            .book-card:hover {
-                transform:translateY(-5px);
-                box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-            }
+    .read-badge {
+        background-color: #dcfce7;
+        color: #15803d;
+        font-weight: 600;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+    }
 
-            .read-badge {
-                background-color: #10B981;
-                color: white;
-                padding: 0.25rem 0.75rem;
-                border-radius: 1rem;
-                font-size: 0.875rem;
-                font-weight: 600;
-            }
-
-            .not-read-badge {
-                background-color: #F87171;
-                color: white;
-                padding: 0.25rem 0.75rem;
-                border-radius: 1rem;
-                font-size: 0.875rem;
-                font-weight: 600;
-            }
-
-            .action-button {
-                margin-right: 0.5rem;
-            }
-
-            .st-btn>button {
-                border-radius: 0.5rem;
-            }
-    </style>
+     </style>
 """, unsafe_allow_html=True)
 
 
@@ -290,125 +279,176 @@ st.session_state.current_view = {
 st.markdown("""
 <img class = 'img' style = 'height: 250px; width: 100%;'/>
 """, unsafe_allow_html=True)
-st.markdown("<h1 class='main-header'> PERSONAL LIBRARY MANAGER </h1>", unsafe_allow_html=True)
+# st.markdown("<h1 class='main-header'> PERSONAL LIBRARY MANAGER </h1>", unsafe_allow_html=True)
+st.markdown(
+    """
+    <div style="text-align: center; padding: 30px 0;">
+        <h1 style="font-size: 48px; color: #264653; margin-bottom: 0;">📚 Personal Library Manager</h1>
+        <p style="font-size: 20px; color: #6c757d;">Organize your personal book collection easily and beautifully.</p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 # -------------------- ADD BOOK VIEW --------------------
 if st.session_state.current_view == "add":
-    st.markdown("<h2 class='sub-header'> Add a new book </h2>", unsafe_allow_html=True)
+    st.markdown("""
+    <div style='text-align:center; margin-top: 20px;'>
+        <h2 style='color:#264653;'>📘 Add a New Book</h2>
+        <p style='color:#6c757d;'>Fill in the details below to add a book to your collection.</p>
+    </div>
+    """, unsafe_allow_html=True)
 
     with st.form("add_book_form"):
+        st.markdown("### 📄 Book Information")
+
         col1, col2 = st.columns(2)
 
         with col1:
-            title = st.text_input("Book Title", max_chars=100)
-            author = st.text_input("Author", max_chars=100)
-            publication_year = st.number_input("Publication Year", min_value=1000, max_value=datetime.now().year, step=1, value=datetime.now().year)
+            title = st.text_input("📚 Book Title", max_chars=100, placeholder="e.g., The Great Gatsby")
+            author = st.text_input("✍️ Author", max_chars=100, placeholder="e.g., F. Scott Fitzgerald")
+            publication_year = st.number_input("📅 Publication Year", min_value=1000, max_value=datetime.now().year,
+                                               step=1, value=datetime.now().year)
 
         with col2:
-            genre = st.selectbox("Genre", ["Fiction", "Non-Fiction", "Science Fiction", "Fantasy", "Mystery", "Thriller", "Romance", "Biography", "Autobiography", "Self-Help", "Historical Fiction", "Young Adult", "Children's", "Poetry", "Graphic Novel", "Others"])
-            read_status = st.radio("Read Status", ["Read", "Not Read"], horizontal=True)
-            read_bool = read_status == "Read"
-            pages = st.number_input("Pages", min_value=1, max_value=10000, step=1, value=100)
+            genre = st.selectbox("🎭 Genre", [
+                "Fiction", "Non-Fiction", "Science Fiction", "Fantasy", "Mystery", "Thriller", "Romance",
+                "Biography", "Autobiography", "Self-Help", "Historical Fiction", "Young Adult", "Children's",
+                "Poetry", "Graphic Novel", "Others"
+            ])
+            read_status = st.radio("📖 Read Status", ["Read ✅", "Not Read ❌"], horizontal=True)
+            read_bool = "Read" in read_status
+            pages = st.number_input("📄 Pages", min_value=1, max_value=10000, step=1, value=100)
 
-        submit_button = st.form_submit_button(label="Add Book")
+        st.markdown("---")
+        submit_button = st.form_submit_button(label="✅ Add Book")
 
     if submit_button and title and author:
         add_book(title, author, publication_year, genre, read_bool, pages)
+        st.session_state.book_added = True
 
     if st.session_state.get("book_added"):
-        st.markdown("<div class='success'> Book added successfully! </div>", unsafe_allow_html=True)
+        st.success("✅ Book added successfully!")
         st.balloons()
         st.session_state.book_added = False
         st.session_state.current_view = "library"
-        
+
+
 # -------------------- VIEW LIBRARY --------------------
 if st.session_state.current_view == "library":
-    st.markdown("<h2 class = 'sub-header'> YOUR LIBRARY </h2>", unsafe_allow_html=True)
+    st.markdown("<h2 class='sub-header'>📚 Your Library</h2>", unsafe_allow_html=True)
 
     if not st.session_state.library:
-        st.markdown("<div class='warning'> Your library is empty. Add a book to get started! </div>", unsafe_allow_html=True)
+        st.markdown("""
+            <div style="background-color: #fef3c7; padding: 1rem; border-radius: 0.5rem; text-align: center; color: #92400e;">
+                ⚠️ Your library is empty. Add a book to get started!
+            </div>
+        """, unsafe_allow_html=True)
     else:
         cols = st.columns(2)
         for i, book in enumerate(st.session_state.library):
-            with cols[i % 2]:  
+            with cols[i % 2]:
                 st.markdown(f"""
-            <div style="background: linear-gradient(to right, #f9fafb, #f3f4f6); 
-            border-radius: 1rem; 
-            padding: 1.5rem; 
-            margin-bottom: 1rem; 
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
-            border-left: 5px solid {'#10b981' if book.get('read_status', False) else '#ef4444'};">
-    <h3 style="margin: 0; font-size: 1.5rem; font-weight: bold; color: #111827;">📖 {book.get('title', 'Unknown Title')}</h3>
-    <p style="margin: 0.5rem 0;"><strong>👤 Author:</strong> {book.get('author', 'Unknown')}</p>
-    <p style="margin: 0.5rem 0;"><strong>🏷️ Genre:</strong> {book.get('genre', 'Unknown')}</p>
-    <p style="margin: 0.5rem 0;"><strong>📅 Year:</strong> {book.get('publication_year', 'N/A')}</p>
-    <p style="margin: 0.5rem 0;"><strong>📄 Pages:</strong> {book.get('pages', 'N/A')}</p>
-    <p style="margin: 0.5rem 0;">
-        <span style="padding: 0.2rem 0.6rem; 
-                     border-radius: 9999px; 
-                     background-color: {'#dcfce7' if book.get('read_status', False) else '#fee2e2'}; 
-                     color: {'#15803d' if book.get('read_status', False) else '#b91c1c'}; 
-                     font-weight: 600; 
-                     font-size: 0.875rem;">
-            {"✔️ Read" if book.get("read_status", False) else "❌ Not Read"}
-        </span>
-    </p>
-    <p style="font-size: 0.85rem; color: #6b7280;">🕒 Added on: {book.get('date_added', 'N/A')}</p>
-</div>
-""", unsafe_allow_html=True)
-            
-            # Add Remove and Toggle Read Status buttons
-            col1, col2 = st.columns(2)
-            with col1:
-                if st.button("Remove Book", key=f"remove_{i}", use_container_width=True):
-                    if remove_book(i):  # Remove the book and rerun app
+                <div style="background: linear-gradient(to right, #f9fafb, #f3f4f6); 
+                            border-radius: 1rem; 
+                            padding: 1.5rem; 
+                            margin-bottom: 1rem; 
+                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); 
+                            border-left: 5px solid {'#10b981' if book.get('read_status', False) else '#ef4444'};">
+                    <h3 style="margin: 0; font-size: 1.4rem; font-weight: 700; color: #1f2937;">📖 {book.get('title', 'Unknown Title')}</h3>
+                    <p style="margin: 0.5rem 0;"><strong>👤 Author:</strong> {book.get('author', 'Unknown')}</p>
+                    <p style="margin: 0.5rem 0;"><strong>🏷️ Genre:</strong> {book.get('genre', 'Unknown')}</p>
+                    <p style="margin: 0.5rem 0;"><strong>📅 Year:</strong> {book.get('publication_year', 'N/A')}</p>
+                    <p style="margin: 0.5rem 0;"><strong>📄 Pages:</strong> {book.get('pages', 'N/A')}</p>
+                    <p style="margin: 0.5rem 0;">
+                        <span style="padding: 0.2rem 0.6rem; 
+                                     border-radius: 9999px; 
+                                     background-color: {'#dcfce7' if book.get('read_status', False) else '#fee2e2'}; 
+                                     color: {'#15803d' if book.get('read_status', False) else '#b91c1c'}; 
+                                     font-weight: 600; 
+                                     font-size: 0.875rem;">
+                            {"✔️ Read" if book.get("read_status", False) else "❌ Not Read"}
+                        </span>
+                    </p>
+                    <p style="font-size: 0.85rem; color: #6b7280;">🕒 Added on: {book.get('date_added', 'N/A')}</p>
+                </div>
+                """, unsafe_allow_html=True)
+
+                # Buttons below each card
+                col1, col2 = st.columns([1, 1])
+                with col1:
+                    if st.button("🗑️ Remove Book", key=f"remove_{i}", use_container_width=True):
+                        if remove_book(i):
+                            st.session_state.book_removed = True
+                            st.rerun()
+
+                with col2:
+                    new_status = not book["read_status"]
+                    label = "✅ Mark as Read" if not book["read_status"] else "❌ Mark as Not Read"
+                    if st.button(label, key=f"status_{i}", use_container_width=True):
+                        st.session_state.library[i]["read_status"] = new_status
+                        save_library()
                         st.rerun()
-            with col2:
-                new_status = not book["read_status"]  # Toggle read status
-                status_lable = "Mark as Read" if not book["read_status"] else "Mark as Not Read"
-                if st.button(status_lable, key=f"status_{i}", use_container_width=True):
-                    st.session_state.library[i]["read_status"] = new_status
-                    save_library()  # Save the updated status
-                    st.rerun()
+
 
 # Show a success message if a book was removed
 if st.session_state.get("book_removed"):
     st.markdown("<div class='success-message'> Book removed successfully! </div>", unsafe_allow_html=True)
     st.session_state.book_removed = False  # Reset flag
 
+
 # ================= SEARCH BOOKS VIEW =================
 if st.session_state.current_view == "search":
-    st.markdown("<h2 class='sub-header'> Search Books </h2>", unsafe_allow_html=True)
+    st.markdown("<h2 class='sub-header'>🔍 Search Books</h2>", unsafe_allow_html=True)
 
-    # Dropdown to choose search field
-    search_by = st.selectbox("Search by:", ["Title", "Author", "Genre"])
-    search_term = st.text_input("Search term")
+    with st.container():
+        search_by = st.selectbox("🔎 Search by:", ["Title", "Author", "Genre"])
+        search_term = st.text_input("Enter your search term...")
 
     if st.button("Search", use_container_width=True):
         if search_term:
             with st.spinner("Searching..."):
-                search_books(search_term, search_by)  # Perform search
+                search_books(search_term, search_by)
 
             # Display search results
             if hasattr(st.session_state, "search_results"):
                 if st.session_state.search_results:
-                    st.markdown(f"<h3>Found {len(st.session_state.search_results)} result(s):</h3>", unsafe_allow_html=True)
+                    st.markdown(f"<h4 style='color:#10b981;'>✅ Found {len(st.session_state.search_results)} result(s):</h4>", unsafe_allow_html=True)
 
-                    for book in st.session_state.search_results:
-                        st.markdown(f"""
-                            <div class='book-card'>
-                                <h3>{book['title']}</h3>
-                                <p><strong>Author:</strong> {book['author']}</p>
-                                <p><strong>Genre:</strong> {book['genre']}</p>
-                                <p><strong>Publication Year:</strong> {book['publication_year']}</p>
-                                <p><strong>Pages:</strong> {book['pages']}</p>
-                                <p><span class='read-badge'>
-                                    {"Read" if book["read_status"] else "Not Read"}
-                                </span></p>
-                            </div>
-                        """, unsafe_allow_html=True)
+                    cols = st.columns(2)
+                    for i, book in enumerate(st.session_state.search_results):
+                        with cols[i % 2]:
+                            st.markdown(f"""
+                                <div style="background: #f9fafb; 
+                                            border-radius: 1rem; 
+                                            padding: 1.5rem; 
+                                            margin-bottom: 1rem; 
+                                            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05); 
+                                            border-left: 5px solid {'#10b981' if book.get('read_status') else '#ef4444'};">
+                                    <h3 style="margin-bottom: 0.5rem; font-size: 1.25rem; color: #1f2937;">📖 {book['title']}</h3>
+                                    <p style="margin: 0.2rem 0;"><strong>👤 Author:</strong> {book['author']}</p>
+                                    <p style="margin: 0.2rem 0;"><strong>🏷️ Genre:</strong> {book['genre']}</p>
+                                    <p style="margin: 0.2rem 0;"><strong>📅 Year:</strong> {book['publication_year']}</p>
+                                    <p style="margin: 0.2rem 0;"><strong>📄 Pages:</strong> {book['pages']}</p>
+                                    <p style="margin: 0.5rem 0;">
+                                        <span style="padding: 0.2rem 0.6rem; 
+                                                     border-radius: 9999px; 
+                                                     background-color: {'#dcfce7' if book['read_status'] else '#fee2e2'}; 
+                                                     color: {'#15803d' if book['read_status'] else '#b91c1c'}; 
+                                                     font-weight: 600; 
+                                                     font-size: 0.875rem;">
+                                            {"✔️ Read" if book["read_status"] else "❌ Not Read"}
+                                        </span>
+                                    </p>
+                                </div>
+                            """, unsafe_allow_html=True)
                 else:
-                    st.markdown("<div class='warning-message'> No book found matching your search. </div>", unsafe_allow_html=True)
+                    st.markdown("""
+                        <div class='warning-message'>
+                            ❌ No book found matching your search.
+                        </div>
+                    """, unsafe_allow_html=True)
+
 
 # ================= LIBRARY STATISTICS VIEW =================
 elif st.session_state.current_view == "status":
@@ -427,9 +467,6 @@ elif st.session_state.current_view == "status":
         with col3:
             st.metric("Percentage Read", f"{stats['percentage']:.1f}%")
 
-        # Create plots and charts using Plotly
-        
-
         # Display top authors
         if stats['authors']:
             st.markdown("<h3> Top Authors </h3>", unsafe_allow_html=True)
@@ -440,4 +477,3 @@ elif st.session_state.current_view == "status":
 # ================= FOOTER =================
 st.markdown("---")
 st.markdown("Copyright © 2025 Khansa TanveerAhmed — Personal Library Manager", unsafe_allow_html=True)
-
