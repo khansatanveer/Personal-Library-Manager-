@@ -429,7 +429,7 @@ elif st.session_state.current_view == "status":
             st.metric("Percentage Read", f"{stats['percentage']:.1f}%")
 
         # Create plots and charts using Plotly
-        create_visualizations(stats)  
+          
 
         # Display top authors
         if stats['authors']:
