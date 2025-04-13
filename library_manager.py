@@ -8,7 +8,6 @@ import time             # To delay actions if needed
 import random           # (Unused but imported)
 import plotly.express as px     # For visualizations
 import plotly.graph_objects as go
-from PIL import Image
 from streamlit_lottie import st_lottie  # To load Lottie animations
 import requests         # For making HTTP requests
 
@@ -23,17 +22,100 @@ st.set_page_config(
 
 # -------------------- CUSTOM CSS --------------------
 # Injecting custom styles into the app using markdown
+
 st.markdown("""
+
 <style>
-/* Set the background image for the entire page */
-    html, body, .stApp {
-    background-image: url("https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
-    background-size: 100% 300px;  /* Limit height here */
-    background-repeat: no-repeat;
-    background-position: top center;
+html, body, .stApp {
+    background-image: url("https://plus.unsplash.com/premium_photo-1675264382294-350cead0d427?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D") !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
 }
+    .img {
+    background-image: url("https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+       background-repeat: no-repeat; 
+       background-position: top center; 
+       background-attachment: fixed;
+}
+
+        .main-header {
+            color: #f63366;
+            font-size: 3rem !important;
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            font-family: 'Roboto', sans-serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .sub-header {
+            color: #3B82F6;
+            font-size: 1.8rem !important;
+            text-align: center;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            font-family: 'Roboto', sans-serif;
+        }
+
+            .success {
+                padding: 1rem;
+                background-color: #ECFDF5;
+                border-left: 5px solid #10B981;
+                border-radius: 0.375rem;
+            }
+
+            .warning {
+                padding: 1rem;
+                background-color: #FFFBEB;
+                border-left: 5px solid #F59E0B;
+                border-radius: 0.375rem;
+            }
+
+            .book-card {
+                padding: 1rem;
+                background-color: #F3F4F6;
+                margin: 1rem;
+                border-left: 5px solid #F59E0B;
+                transition: transform 0.3s ease;
+            }
+
+            .book-card:hover {
+                transform:translateY(-5px);
+                box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            }
+
+            .read-badge {
+                background-color: #10B981;
+                color: white;
+                padding: 0.25rem 0.75rem;
+                border-radius: 1rem;
+                font-size: 0.875rem;
+                font-weight: 600;
+            }
+
+            .not-read-badge {
+                background-color: #F87171;
+                color: white;
+                padding: 0.25rem 0.75rem;
+                border-radius: 1rem;
+                font-size: 0.875rem;
+                font-weight: 600;
+            }
+
+            .action-button {
+                margin-right: 0.5rem;
+            }
+
+            .st-btn>button {
+                border-radius: 0.5rem;
+            }
     </style>
 """, unsafe_allow_html=True)
+
+
 
 # -------------------- LOAD LOTTIE FUNCTION --------------------
 # Function to fetch Lottie animation from a URL
@@ -205,6 +287,9 @@ st.session_state.current_view = {
 }[nav_options]
 
 # Main header
+st.markdown("""
+<img class = 'img' style = 'height: 250px; width: 100%;'/>
+""", unsafe_allow_html=True)
 st.markdown("<h1 class='main-header'> PERSONAL LIBRARY MANAGER </h1>", unsafe_allow_html=True)
 
 # -------------------- ADD BOOK VIEW --------------------
@@ -352,7 +437,7 @@ elif st.session_state.current_view == "status":
             top_authors = dict(list(stats['authors'].items())[:5])  # Show top 5
             for author, count in top_authors.items():
                 st.markdown(f"**{author}**: {count} book{'s' if count > 1 else ''}")
-
 # ================= FOOTER =================
 st.markdown("---")
 st.markdown("Copyright © 2025 Khansa TanveerAhmed — Personal Library Manager", unsafe_allow_html=True)
+
