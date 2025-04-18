@@ -10,6 +10,8 @@ import plotly.express as px     # For visualizations
 import plotly.graph_objects as go
 from streamlit_lottie import st_lottie  # To load Lottie animations
 import requests         # For making HTTP requests
+from streamlit_toggle import st_toggle_switch
+
 
 # -------------------- PAGE SETUP --------------------
 # Set basic configuration for the Streamlit page
@@ -26,14 +28,35 @@ st.set_page_config(
 st.markdown("""
 
 <style>
-    .img {
-    background: url("https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
-       background-repeat: no-repeat; 
-       background-position: top center; 
-       background-attachment: fixed;
-         background-size: cover;
+ html, body, .block-container, .stApp {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        overflow-x: hidden;
+        background-color: #FFF3DB;  
+    }
+
+    .image-container {
+    width: 100vw;
+    height: 300px;
+    overflow: hidden;
 }
 
+.image-container img {
+    width: 100vw;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.small-image {
+        position: absolute;
+        bottom: -1%; 
+        left: 50px;   
+        width: 200px;  
+        height: auto; 
+        transform: translateY(50%); 
+        
+    }
         .main-header {
             color: #f63366;
             font-size: 3rem !important;
@@ -48,15 +71,13 @@ st.markdown("""
         color: #3B82F6;
         font-size: 1.8rem !important;
         text-align: center;
-        margin-top: 1rem;
-        margin-bottom: 1.5rem;
         font-weight: 600;
         font-family: 'Roboto', sans-serif;
     }
 
     .success-message {
         background-color: #dcfce7;
-        padding: 1rem;
+        padding-top: 1rem;
         border-radius: 0.5rem;
         color: #15803d;
         font-weight: 500;
@@ -72,13 +93,31 @@ st.markdown("""
         text-align: center;
     }
 .warning-message {
-        background-color: #fee2e2;
         color: #b91c1c;
         padding: 1rem;
         border-radius: 0.5rem;
         text-align: center;
-        font-weight: 500;
+        font-weight: 700;
         margin-top: 1rem;
+    }
+
+.stats-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 200px;
+        
+    }
+
+    .stat-card {
+        border-radius: 1.25rem;
+        padding: 2rem;
+        width: auto;
+        height: auto;
+        flex: 1 1 auto;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+
     }
 
     .book-card h3 {
@@ -94,9 +133,12 @@ st.markdown("""
         border-radius: 9999px;
     }
 
-     </style>
-""", unsafe_allow_html=True)
+    [data-testid="stSidebar"] {
+            background-color: #FFF3DB;
+        }
 
+    </style>
+""", unsafe_allow_html=True)
 
 
 # -------------------- LOAD LOTTIE FUNCTION --------------------
@@ -250,16 +292,18 @@ def create_visulations(status):
 # Load the library on app start
 load_library()
 
-# Sidebar navigation menu
-st.sidebar.markdown("<h1 style='text-align: center;'>Navigation</h1>", unsafe_allow_html=True)
 
-# Load Lottie animation
-lottie_book = load_lottie_url("https://assets9.lottiefiles.com/temp/lf20_aKAfIn.json")
-if lottie_book:
-    with st.sidebar:
-        st_lottie(lottie_book, width=200, height=200, key="book_animation")
+# Sidebar navigation menu
+st.sidebar.markdown("<h1 style=' font-size: 40px; color: #000; padding-top: 120px;'>Navigation</h1>", unsafe_allow_html=True)
 
 # Navigation radio buttons
+st.sidebar.markdown(
+    """
+    <div></div>
+    """,
+  unsafe_allow_html=True
+    )
+
 nav_options = st.sidebar.radio("Choose option", ["View Library", "Add Book", "Search Books", "Library Statistics"])
 st.session_state.current_view = {
     "View Library": "library",
@@ -268,20 +312,30 @@ st.session_state.current_view = {
     "Library Statistics": "status"
 }[nav_options]
 
-# Main header
-st.markdown("""
-<img class = 'img' style = 'height: 250px; width: 100%;'/>
-""", unsafe_allow_html=True)
-# st.markdown("<h1 class='main-header'> PERSONAL LIBRARY MANAGER </h1>", unsafe_allow_html=True)
+
+
+
+st.markdown(
+    """
+    <div class="image-container">
+        <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"/>
+        </div>
+        
+    
+    """,
+    unsafe_allow_html=True
+)
+
 st.markdown(
     """
     <div style="text-align: center; padding: 30px 0;">
-        <h1 style="font-size: 48px; color: #264653; margin-bottom: 0;">📚 Personal Library Manager</h1>
+        <h1 style="font-size: 48px; color: #264653; margin-bottom: 0;">Personal Library Manager</h1>
         <p style="font-size: 20px; color: #6c757d;">Organize your personal book collection easily and beautifully.</p>
     </div>
     """,
     unsafe_allow_html=True
 )
+
 
 # -------------------- ADD BOOK VIEW --------------------
 if st.session_state.current_view == "add":
@@ -301,7 +355,7 @@ if st.session_state.current_view == "add":
             title = st.text_input("📚 Book Title", max_chars=100, placeholder="e.g., The Great Gatsby")
             author = st.text_input("✍️ Author", max_chars=100, placeholder="e.g., F. Scott Fitzgerald")
             publication_year = st.number_input("📅 Publication Year", min_value=1000, max_value=datetime.now().year,
-                                               step=1, value=datetime.now().year)
+                                                step=1, value=datetime.now().year)
 
         with col2:
             genre = st.selectbox("🎭 Genre", [
@@ -329,14 +383,10 @@ if st.session_state.current_view == "add":
 
 # -------------------- VIEW LIBRARY --------------------
 if st.session_state.current_view == "library":
-    st.markdown("<h2 class='sub-header'>📚 Your Library</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 class='sub-header' style=' margin-bottom: 1.5rem; ' >📚 Your Library</h2>", unsafe_allow_html=True)
 
     if not st.session_state.library:
-        st.markdown("""
-            <div style="background-color: #fef3c7; padding: 1rem; border-radius: 0.5rem; text-align: center; color: #92400e;">
-                ⚠️ Your library is empty. Add a book to get started!
-            </div>
-        """, unsafe_allow_html=True)
+        pass
     else:
         cols = st.columns(2)
         for i, book in enumerate(st.session_state.library):
@@ -355,11 +405,11 @@ if st.session_state.current_view == "library":
                     <p style="margin: 0.5rem 0;"><strong>📄 Pages:</strong> {book.get('pages', 'N/A')}</p>
                     <p style="margin: 0.5rem 0;">
                         <span style="padding: 0.2rem 0.6rem; 
-                                     border-radius: 9999px; 
-                                     background-color: {'#dcfce7' if book.get('read_status', False) else '#fee2e2'}; 
-                                     color: {'#15803d' if book.get('read_status', False) else '#b91c1c'}; 
-                                     font-weight: 600; 
-                                     font-size: 0.875rem;">
+                                    border-radius: 9999px; 
+                                    background-color: {'#dcfce7' if book.get('read_status', False) else '#fee2e2'}; 
+                                    color: {'#15803d' if book.get('read_status', False) else '#b91c1c'}; 
+                                    font-weight: 600; 
+                                    font-size: 0.875rem;">
                             {"✔️ Read" if book.get("read_status", False) else "❌ Not Read"}
                         </span>
                     </p>
@@ -425,11 +475,11 @@ if st.session_state.current_view == "search":
                                     <p style="margin: 0.2rem 0;"><strong>📄 Pages:</strong> {book['pages']}</p>
                                     <p style="margin: 0.5rem 0;">
                                         <span style="padding: 0.2rem 0.6rem; 
-                                                     border-radius: 9999px; 
-                                                     background-color: {'#dcfce7' if book['read_status'] else '#fee2e2'}; 
-                                                     color: {'#15803d' if book['read_status'] else '#b91c1c'}; 
-                                                     font-weight: 600; 
-                                                     font-size: 0.875rem;">
+                                                    border-radius: 9999px; 
+                                                    background-color: {'#dcfce7' if book['read_status'] else '#fee2e2'}; 
+                                                    color: {'#15803d' if book['read_status'] else '#b91c1c'}; 
+                                                    font-weight: 600; 
+                                                    font-size: 0.875rem;">
                                             {"✔️ Read" if book["read_status"] else "❌ Not Read"}
                                         </span>
                                     </p>
@@ -441,8 +491,9 @@ if st.session_state.current_view == "search":
                             ❌ No book found matching your search.
                         </div>
                     """, unsafe_allow_html=True)
-                    
+
 # =================== LIBRARY STATISTICS VIEW ===================
+
 if not st.session_state.library:
     st.markdown("<div class='warning-message'>Your library is empty. Add some books to see statistics.</div>", unsafe_allow_html=True)
 else:
@@ -521,4 +572,15 @@ else:
 
 # ================= FOOTER =================
 st.markdown("---")
-st.markdown("Copyright © 2025 Khansa TanveerAhmed — Personal Library Manager", unsafe_allow_html=True)
+st.markdown("""
+    <style>
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: #f3f4f6;
+            border-radius: 0.5rem;
+            color: #6b7280;
+        }
+    </style>
+""", unsafe_allow_html=True)
+st.markdown("<footer>Copyright © 2025 Khansa TanveerAhmed — Personal Library Manager</footer>", unsafe_allow_html=True)
