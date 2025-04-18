@@ -10,7 +10,7 @@ import plotly.express as px     # For visualizations
 import plotly.graph_objects as go
 from streamlit_lottie import st_lottie  # To load Lottie animations
 import requests         # For making HTTP requests
-from streamlit_toggle import st_toggle_switch
+
 
 
 # -------------------- PAGE SETUP --------------------
